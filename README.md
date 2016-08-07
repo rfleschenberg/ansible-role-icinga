@@ -9,7 +9,7 @@ None.
 Role Variables
 --------------
 
-None.
+`icinga_users`: list of users to write to the htpasswd file (see below for an example)
 
 Dependencies
 ------------
@@ -19,11 +19,13 @@ None.
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
     - hosts: monitoring
       roles:
-         - { role: rfleschenberg.icinga }
+        - role: rfleschenberg.icinga
+      vars:
+        icinga_users:
+          - username: root
+            password: secret
 
 License
 -------
