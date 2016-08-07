@@ -1,2 +1,27 @@
 ---
-# tasks file for ansible-role-icinga
+- name: icinga is installed
+  apt:
+    name: icinga
+    state: installed
+
+- name: passlib is installed
+  apt:
+    name: python-passlib
+    state: installed
+
+- name: icinga users are present
+  htpasswd:
+    path: /etc/icinga/htpasswd.users
+    name: "{{ item.username }}"
+    password: "{{ item.password }}"
+  with_items: "{{ icinga_users }}"
+
+- name: service is enabled
+  service:
+    name: icinga
+    enabled: true
+
+- name: service is started
+  service:
+    name: icinga
+    state: started
