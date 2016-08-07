@@ -9,7 +9,12 @@ None.
 Role Variables
 --------------
 
-`icinga_users`: list of users to write to the htpasswd file (see below for an example)
+`icinga_users`:
+list of users to write to the htpasswd file (see below for an example)
+
+`icinga_objects_dir`:
+path to a directory contaiing Icinga object files. All files will be copied to
+the Icinga objects directory.
 
 Dependencies
 ------------
@@ -26,6 +31,7 @@ Example Playbook
         icinga_users:
           - username: root
             password: secret
+        icinga_objects_dir: icinga/objects
 
 License
 -------

@@ -16,6 +16,13 @@
     password: "{{ item.password }}"
   with_items: "{{ icinga_users }}"
 
+- name: Objects are present
+  copy:
+    src: "{{ item }}"
+    dest: /etc/icinga/objects/
+  with_fileglob:
+    - "{{ icinga_objects_dir }}/*"
+
 - name: service is enabled
   service:
     name: icinga
