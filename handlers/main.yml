@@ -1,2 +1,5 @@
 ---
-# handlers file for ansible-role-icinga
+- name: reload icinga
+  service:
+    name: icinga
+    state: reloaded

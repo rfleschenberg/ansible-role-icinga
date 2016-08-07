@@ -22,6 +22,7 @@
     dest: /etc/icinga/objects/
   with_fileglob:
     - "{{ icinga_objects_dir }}/*"
+  notify: reload icinga
 
 - name: service is enabled
   service:
