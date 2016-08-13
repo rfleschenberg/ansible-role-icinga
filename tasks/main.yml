@@ -16,6 +16,14 @@
     password: "{{ item.password }}"
   with_items: "{{ icinga_users }}"
 
+- name: Enable external commands
+  lineinfile:
+    state: present
+    dest: /etc/icinga/icinga.cfg
+    line: 'check_external_commands=1'
+    regexp: '^check_external_commands=\d$'
+
+
 - name: Remove default Icinga objects
   file:
     path: "{{ item }}"
