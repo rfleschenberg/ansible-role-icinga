@@ -16,6 +16,17 @@
     password: "{{ item.password }}"
   with_items: "{{ icinga_users }}"
 
+- name: Remove default Icinga objects
+  file:
+    path: "{{ item }}"
+    state: absent
+  notify: reload icinga
+  with_items:
+    - /etc/icinga/objects/hostgroups_icinga.cfg
+    - /etc/icinga/objects/localhost_icinga.cfg
+    - /etc/icinga/objects/services_icinga.cfg
+    - /etc/icinga/objects/extinfo_icinga.cfg
+
 - name: Objects are present
   copy:
     src: "{{ item }}"
