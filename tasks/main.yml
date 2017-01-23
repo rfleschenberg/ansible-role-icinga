@@ -24,13 +24,13 @@
     regexp: '^check_external_commands=\d$'
 
 - name: Check stat-override for commands dir
-  command: dpkg-statoverride --list /var/lib/icinga/rw
+  command: dpkg-statoverride --list /var/lib/icinga
   register: statoverride_dir
   changed_when: false
   failed_when: false
 
 - name: Set permissions on commands dir
-  command: dpkg-statoverride --update --add nagios www-data 2710 /var/lib/icinga/rw
+  command: dpkg-statoverride --update --force --add nagios www-data 2710 /var/lib/icinga
   when: statoverride_dir.stdout != "nagios nagios 751 /var/lib/icinga"
   notify: reload icinga
 
@@ -38,9 +38,10 @@
   command: dpkg-statoverride --list /var/lib/icinga/rw
   register: statoverride_file
   changed_when: false
+  failed_when: false
 
 - name: Set permissions on commands file
-  command: dpkg-statoverride --update --force --add nagios nagios 751 /var/lib/icinga
+  command: dpkg-statoverride --update --force --add nagios nagios 751 /var/lib/icinga/rw
   when: statoverride_file.stdout != "nagios www-data 2710 /var/lib/icinga/rw"
   notify: reload icinga
 
