@@ -30,7 +30,7 @@
   failed_when: false
 
 - name: Set permissions on commands dir
-  command: dpkg-statoverride --update --force --add nagios www-data 751 /var/lib/icinga
+  command: dpkg-statoverride --update --force --add nagios nagios 751 /var/lib/icinga
   when: statoverride_dir.stdout != "nagios nagios 751 /var/lib/icinga"
   notify: reload icinga
 
