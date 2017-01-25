@@ -24,7 +24,8 @@ this key to log into monitored systems.
 Dependencies
 ------------
 
-None.
+* https://github.com/thefinn93/ansible-letsencrypt
+  (`ansible-galaxy` should pull this in for you automatically)
 
 Example Playbook
 ----------------
