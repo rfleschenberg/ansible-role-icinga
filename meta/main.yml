@@ -188,7 +188,10 @@ galaxy_info:
     # NOTE: A tag is limited to a single word comprised of
     # alphanumeric characters. Maximum 20 tags per role.
 
-dependencies: []
+dependencies:
+  - src: https://github.com/thefinn93/ansible-letsencrypt
+    version: 9d9525136c56f39d85a3497223f8fc04e628b43d
+    name: letsencrypt
   # List your role dependencies here, one per line.
   # Be sure to remove the '[]' above if you add dependencies
   # to this list.
