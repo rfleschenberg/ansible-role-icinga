@@ -1,4 +1,10 @@
 ---
+- name: Ensure capabilities on /bin/ping
+  capabilities:
+    path: /bin/ping
+    capability: cap_net_raw+ep
+    state: present
+
 - name: icinga is installed
   apt:
     name: icinga
@@ -64,12 +70,66 @@
     - "{{ icinga_objects_dir }}/*"
   notify: Reload Icinga
 
-- name: service is enabled
+- name: SSH directory is present
+  file:
+    path: /var/lib/nagios/.ssh
+    state: directory
+    owner: nagios
+    group: nagios
+    mode: 0750
+
+- name: Private SSH key for monitoring is present
+  copy:
+    content: "{{ icinga_monitoring_private_key }}"
+    dest: /var/lib/nagios/.ssh/id_rsa
+    owner: nagios
+    group: nagios
+    mode: 0600
+
+- name: Icinga service is enabled
   service:
     name: icinga
     enabled: true
 
-- name: service is started
+- name: Icinga service is started
   service:
     name: icinga
     state: started
+
+- name: Check if default vhost is enabled
+  command: a2query -s 000-default
+  register: default_vhost_enabled
+  failed_when: false
+  changed_when: false
+
+- name: Disable Apache default vhost
+  command: a2dissite 000-default
+  when: default_vhost_enabled.rc == 0
+
+- name: Check if SSL module is enabled
+  command: a2query -m ssl
+  register: ssl_module_enabled
+  failed_when: false
+  changed_when: false
+
+- name: Enable Apache SSL module
+  apache2_module:
+    name: ssl
+    state: present
+  when: ssl_module_enabled.rc != 0
+
+- name: Install new vhost
+  template:
+    src: icinga_vhost.cfg.conf.j2
+    dest: /etc/apache2/sites-available/icinga_vhost.conf
+
+- name: Enable new vhost
+  file:
+    path: /etc/apache2/sites-enabled/icinga_vhost.conf
+    src: ../sites-available/icinga_vhost.conf
+    state: link
+
+- name: Reload apache
+  service:
+    name: apache2
+    state: reloaded
