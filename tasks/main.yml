@@ -32,7 +32,7 @@
 - name: Set permissions on commands dir
   command: dpkg-statoverride --update --force --add nagios nagios 751 /var/lib/icinga
   when: statoverride_dir.stdout != "nagios nagios 751 /var/lib/icinga"
-  notify: reload icinga
+  notify: Reload Icinga
 
 - name: Check stat-override for commands file
   command: dpkg-statoverride --list /var/lib/icinga/rw
@@ -43,13 +43,13 @@
 - name: Set permissions on commands file
   command: dpkg-statoverride --update --force --add nagios nagios 2710 /var/lib/icinga/rw
   when: statoverride_file.stdout != "nagios www-data 2710 /var/lib/icinga/rw"
-  notify: reload icinga
+  notify: Reload Icinga
 
 - name: Remove default Icinga objects
   file:
     path: "{{ item }}"
     state: absent
-  notify: reload icinga
+  notify: Reload Icinga
   with_items:
     - /etc/icinga/objects/hostgroups_icinga.cfg
     - /etc/icinga/objects/localhost_icinga.cfg
@@ -62,7 +62,7 @@
     dest: /etc/icinga/objects/
   with_fileglob:
     - "{{ icinga_objects_dir }}/*"
-  notify: reload icinga
+  notify: Reload Icinga
 
 - name: service is enabled
   service:

@@ -1,5 +1,5 @@
 ---
-- name: reload icinga
+- name: Reload Icinga
   service:
     name: icinga
     state: reloaded
