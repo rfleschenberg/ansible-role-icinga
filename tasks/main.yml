@@ -105,6 +105,7 @@
 - name: Disable Apache default vhost
   command: a2dissite 000-default
   when: default_vhost_enabled.rc == 0
+  notify: Reload Apache
 
 - name: Check if SSL module is enabled
   command: a2query -m ssl
@@ -117,19 +118,17 @@
     name: ssl
     state: present
   when: ssl_module_enabled.rc != 0
+  notify: Reload Apache
 
 - name: Install new vhost
   template:
     src: icinga_vhost.cfg.conf.j2
     dest: /etc/apache2/sites-available/icinga_vhost.conf
+  notify: Reload Apache
 
 - name: Enable new vhost
   file:
     path: /etc/apache2/sites-enabled/icinga_vhost.conf
     src: ../sites-available/icinga_vhost.conf
     state: link
-
-- name: Reload apache
-  service:
-    name: apache2
-    state: reloaded
+  notify: Reload Apache
