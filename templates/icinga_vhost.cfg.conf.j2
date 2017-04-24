@@ -16,7 +16,7 @@
         CustomLog ${APACHE_LOG_DIR}/access.log combined
         SSLEngine on
         SSLCertificateFile {{ icinga_ssl_certificate_file }}
-        SSLCertificateKeyFile {{ icinga_ssl_certificate__key_file }}
+        SSLCertificateKeyFile {{ icinga_ssl_certificate_key_file }}
         SSLCertificateChainFile {{ icinga_ssl_certificate_chain_file }}
 
         RedirectMatch ^/$ https://{{ inventory_hostname }}/icinga/
