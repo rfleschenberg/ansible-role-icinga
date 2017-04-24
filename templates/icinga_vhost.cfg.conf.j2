@@ -15,9 +15,9 @@
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
         SSLEngine on
-        SSLCertificateFile /etc/letsencrypt/live/{{ inventory_hostname }}/cert.pem
-        SSLCertificateKeyFile /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem
-        SSLCertificateChainFile /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem
+        SSLCertificateFile {{ icinga_ssl_certificate_file }}
+        SSLCertificateKeyFile {{ icinga_ssl_certificate__key_file }}
+        SSLCertificateChainFile {{ icinga_ssl_certificate_chain_file }}
 
         RedirectMatch ^/$ https://{{ inventory_hostname }}/icinga/
 </VirtualHost>

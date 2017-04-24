@@ -24,29 +24,14 @@ this key to log into monitored systems.
 Dependencies
 ------------
 
-* https://github.com/thefinn93/ansible-letsencrypt
-  `ansible-galaxy` should pull this in for you automatically. This role assumes
-  that letsencrypt is used to get an SSL cert for the Icinga host. You still
-  need to apply the letsencrypt role explicitly in your playbook.
+None.
 
 Example Playbook
 ----------------
 
     - hosts: monitoring
       roles:
-        - letsencrypt
         - icinga
-      vars:
-        letsencrypt_email: you@example.org
-        letsencrypt_cert_domains:
-          - "{{ inventory_hostname }}"
-        icinga_users:
-          - username: admin1
-            password: "{{ admin1_password }}"
-          - username: admin2
-            password: "{{ admin2_password }}"
-        icinga_objects_dir: files/icinga/objects
-        icinga_monitoring_private_key: "{{ my_monitoring_private_key }"
 
 License
 -------
