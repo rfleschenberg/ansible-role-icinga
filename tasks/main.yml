@@ -122,7 +122,7 @@
 
 - name: Install new vhost
   template:
-    src: icinga_vhost.cfg.conf.j2
+    src: vhost.conf.j2
     dest: /etc/apache2/sites-available/icinga_vhost.conf
   notify: Reload Apache
 
