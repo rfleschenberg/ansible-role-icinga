@@ -85,6 +85,7 @@
     owner: nagios
     group: nagios
     mode: 0600
+  no_log: true
 
 - name: Icinga service is enabled
   service:
